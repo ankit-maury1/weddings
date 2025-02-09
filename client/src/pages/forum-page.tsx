@@ -11,16 +11,20 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import ForumPostComponent from "@/components/ui/forum-post";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function ForumPage() {
   const { toast } = useToast();
+  const { user } = useAuth();
+
   const form = useForm({
     resolver: zodResolver(insertForumPostSchema),
     defaultValues: {
       title: "",
       content: "",
-      userId: 0,
-      isPinned: false
+      userId: user?.id || 0,
+      isPinned: false,
+      createdAt: new Date().toISOString()
     }
   });
 
@@ -30,7 +34,10 @@ export default function ForumPage() {
 
   const createPost = useMutation({
     mutationFn: async (data: typeof form.getValues) => {
-      const res = await apiRequest("POST", "/api/forum", data);
+      const res = await apiRequest("POST", "/api/forum", {
+        ...data,
+        createdAt: new Date().toISOString()
+      });
       return res.json();
     },
     onSuccess: () => {

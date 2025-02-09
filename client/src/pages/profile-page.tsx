@@ -20,9 +20,9 @@ export default function ProfilePage() {
   const form = useForm<InsertUser>({
     resolver: zodResolver(insertUserSchema),
     defaultValues: {
-      username: user?.username,
+      username: user?.username || "",
       password: "",
-      role: user?.role,
+      role: user?.role || "client",
       businessName: user?.businessName || "",
       description: user?.description || "",
       address: user?.address || "",
@@ -34,6 +34,10 @@ export default function ProfilePage() {
 
   const updateProfile = useMutation({
     mutationFn: async (data: Partial<InsertUser>) => {
+      // Don't send empty password
+      if (!data.password) {
+        delete data.password;
+      }
       const res = await apiRequest("PATCH", "/api/profile", data);
       return res.json();
     },
@@ -114,16 +118,16 @@ export default function ProfilePage() {
                     {...form.register("description")}
                     disabled={!isEditing}
                   />
+                  <Input
+                    placeholder="Phone (e.g. +1234567890)"
+                    {...form.register("phone")}
+                    disabled={!isEditing}
+                  />
                 </>
               )}
               <Input
                 placeholder="Address"
                 {...form.register("address")}
-                disabled={!isEditing}
-              />
-              <Input
-                placeholder="Phone"
-                {...form.register("phone")}
                 disabled={!isEditing}
               />
               <Input

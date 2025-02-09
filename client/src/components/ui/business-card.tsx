@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { Camera, Video, Pencil, Star } from "lucide-react";
+import { Camera, Video, Pencil, Star, MessageSquare } from "lucide-react";
 
 const roleIcons = {
   photographer: Camera,
@@ -61,6 +61,21 @@ export default function BusinessCard({ business }: BusinessCardProps) {
 
   const Icon = roleIcons[business.role as keyof typeof roleIcons];
 
+  const handleWhatsAppQuery = () => {
+    if (!business.phone) {
+      toast({
+        title: "Error",
+        description: "This business has not provided a contact number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const phone = business.phone.replace(/\D/g, '');
+    const message = encodeURIComponent(`Hi, I'm interested in your services on WeddingConnect.`);
+    window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -77,28 +92,37 @@ export default function BusinessCard({ business }: BusinessCardProps) {
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground mb-4">{business.description}</p>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button>Send Inquiry</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Send message to {business.businessName}</DialogTitle>
-            </DialogHeader>
-            <form
-              onSubmit={form.handleSubmit((data) => sendInquiry.mutate(data))}
-              className="space-y-4"
-            >
-              <Textarea
-                placeholder="Write your message here..."
-                {...form.register("message")}
-              />
-              <Button type="submit" disabled={sendInquiry.isPending}>
-                Send Message
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
+        {business.phone && (
+          <p className="text-sm mb-2">Contact: {business.phone}</p>
+        )}
+        <div className="flex gap-2">
+          <Button onClick={handleWhatsAppQuery} className="flex items-center gap-2">
+            <MessageSquare className="h-4 w-4" />
+            WhatsApp
+          </Button>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline">Send Inquiry</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Send message to {business.businessName}</DialogTitle>
+              </DialogHeader>
+              <form
+                onSubmit={form.handleSubmit((data) => sendInquiry.mutate(data))}
+                className="space-y-4"
+              >
+                <Textarea
+                  placeholder="Write your message here..."
+                  {...form.register("message")}
+                />
+                <Button type="submit" disabled={sendInquiry.isPending}>
+                  Send Message
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </CardContent>
     </Card>
   );

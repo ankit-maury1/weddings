@@ -64,6 +64,14 @@ export const insertUserSchema = createInsertSchema(users).pick({
   phone: true,
   email: true,
   website: true
+}).extend({
+  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Please enter a valid phone number in international format (e.g. +1234567890)")
+    .optional()
+    .refine((val) => {
+      // Phone is required for business accounts
+      if (val === undefined) return true;
+      return val.length >= 10;
+    }, "Phone number is required for business accounts"),
 });
 
 export const insertForumPostSchema = createInsertSchema(forumPosts);
