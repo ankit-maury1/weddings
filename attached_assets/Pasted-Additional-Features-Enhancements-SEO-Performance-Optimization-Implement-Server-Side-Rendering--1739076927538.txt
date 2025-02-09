@@ -1,0 +1,41 @@
+Additional Features & Enhancements:
+SEO & Performance Optimization
+
+Implement Server-Side Rendering (SSR) using Angular Universal for better SEO and faster page loads.
+Use Lazy Loading Modules to improve performance and reduce initial load time.
+Progressive Web App (PWA) Support
+
+Add PWA features to make the platform installable on mobile devices and support offline access.
+Implement a service worker to cache static assets.
+AI-Powered Recommendations
+
+Use machine learning models (e.g., TensorFlow.js) to suggest vendors, wedding themes, and planners based on user preferences.
+Implement personalized recommendations based on previous searches and ratings.
+Social Media Integration
+
+Allow users to share profiles, bookings, and registry lists on social media platforms like Facebook, Instagram, and WhatsApp.
+Implement Google and Facebook login for easy authentication.
+Real-Time Notifications & Updates
+
+Use Firebase Cloud Messaging (FCM) or WebSockets for push notifications (e.g., booking confirmations, messages, reminders).
+Implement a notification center using Angular Material SnackBar (mat-snackbar).
+Custom Wedding Website for Couples
+
+Provide couples with a feature to create a mini-wedding website (select template, add timeline, RSVP, and registry links).
+Vendor Subscription Plans
+
+Introduce subscription-based plans for vendors with premium features like higher visibility, featured listings, and analytics.
+Integrate Stripe or Razorpay for managing subscriptions.
+Automated Video & Image Editing Suggestions
+
+Allow AI-based photo and video enhancements (e.g., auto-cropping, color correction, and video trimming suggestions).
+AI Chatbot Enhancement
+
+Use OpenAI API or Dialogflow to provide personalized chatbot responses based on user history and preferences.
+Wedding Budget Planner
+
+Implement a budget tracking system using Angular Material Sliders and Tables to help couples manage expenses.
+Security & Scalability Enhancements:
+✅ Rate Limiting & DDOS Protection – Prevent spam and abuse in booking, review, and messaging systems.
+✅ Data Encryption – Use AES encryption for sensitive data and enforce HTTPS using Let’s Encrypt.
+✅ Scalable Backend – Ensure load balancing & horizontal scaling using Docker & Kubernetes for cloud deployment.

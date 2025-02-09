@@ -1,0 +1,67 @@
+WeddingConnect Web Application
+A comprehensive wedding-focused platform that connects users with wedding businesses, professionals, and services, built using Angular and Angular Material for a seamless, modern experience.
+
+Core Features:
+1. User Authentication with Role Selection
+Roles: Photographer, Videographer, Editor, Client
+User Registration & Login: Use Angular’s Reactive Forms for user registration and login forms. Implement JWT (JSON Web Token) authentication for secure login and role-based access control.
+Role-Specific Dashboards: Dynamically display role-based dashboards using Angular Directives and Angular Material components (e.g., mat-card, mat-list).
+Route Guards: Implement Route Guards to restrict access to certain pages based on the user's role.
+2. Business Interaction Platform
+Business Profiles: Use Angular Material Cards to display business profiles with services, portfolios, and ratings.
+Booking & Inquiry System: Clients can use Angular Material Dialogs (mat-dialog) to send inquiries or book services, which can be processed by Angular services.
+Ratings & Reviews: Implement a ratings system using Angular components that allow users to rate professionals, and display reviews with Angular Material Lists (mat-list).
+3. AI-Powered Chatbot for User Queries
+Angular Services: Create a service for handling interactions with the AI chatbot (which could connect to an external API or be powered by simple Angular logic).
+User Interface: Use Angular Material components like mat-input for chat input and mat-card to display conversation history.
+4. Admin Panel for Content Management
+Content Management: Admins can manage posts, videos, and services using Angular Material Table (mat-table) to display and manage content.
+User Management: Admin features to manage user roles and activity using Angular Material Forms (mat-form-field, mat-select) and Reactive Forms.
+Analytics & Reports: Create dashboards using Angular Material Cards and Charts (possibly using ng2-charts for Angular integration).
+5. Community Forum for Communication
+Discussions & Advice: Use Angular Material Expansion Panels (mat-accordion) for organizing discussions, allowing users to ask questions and receive answers.
+Private Messages & Group Chats: Implement Angular Material Tabs (mat-tab) for organizing conversations and allowing users to send messages or create chat groups.
+Event Planning Threads: Create specialized discussion threads for planning events, integrating Angular Material Lists for thread posts.
+Additional Features:
+6. Dark Mode Toggle
+Angular Theme Support: Leverage Angular's CSS Variables for dark and light mode theming. The theme can be toggled using an Angular Material Slider (mat-slide-toggle).
+Persistent Mode: Store the user’s theme preference in localStorage or sessionStorage to persist between sessions.
+7. Event & Timeline Management
+Wedding Timeline: Use Angular Material Date Pickers (mat-datepicker) to manage wedding-related dates and create event timelines.
+To-Do Lists: Implement checklist-style features using Angular Material Checkboxes (mat-checkbox) for tasks.
+Collaborative Planning: Enable real-time updates to wedding planning with Angular Services and possibly WebSockets for collaborative features.
+8. Vendor Directory & Marketplace
+Vendor Listings: Use Angular Material Grid List (mat-grid-list) to display a directory of vendors. Allow users to filter listings by location, rating, and service type.
+Vendor Filtering: Implement Angular Material Autocomplete (mat-autocomplete) for users to filter vendors by different criteria.
+Bookings & Payments: Integrate with a payment gateway using Angular Services for secure transactions.
+9. Gift Registry Integration
+Registry Setup: Implement a registry system using Angular Material Forms to allow couples to add items and share it with guests.
+Gift Suggestions: Use Angular Material Cards to display personalized gift suggestions.
+10. Multilingual Support
+i18n: Leverage Angular’s i18n (internationalization) support to translate the platform into multiple languages, ensuring a global reach.
+Visual and Design References:
+Inspired By: Wedding planning platforms like The Knot and WeddingWire, known for their elegant, user-friendly interfaces with modern design elements and easy navigation.
+Style Guide:
+Colors:
+
+Primary: #FF4081 (romantic pink)
+Secondary: #3F51B5 (royal blue)
+Accent: #FFD54F (soft gold)
+Background: #FFFFFF (white) for light mode, #121212 (dark gray) for dark mode
+Text: #212121 (near black) for light mode, #E0E0E0 (light gray) for dark mode
+Typography:
+
+Headings: Playfair Display (elegant and classic serif font)
+Body Text: Lato (clean, modern sans-serif)
+Technical Elements: Roboto Mono (for code or technical content)
+Design:
+
+Layout: Clean and modern with generous white space, providing a calming user experience.
+Card-Based Design: Posts, business profiles, and community threads are organized in cards for easy scanning and interaction, using Angular Material Cards (mat-card).
+Responsive Grid System: The platform should adapt seamlessly to different screen sizes, from mobile to desktop, using Angular Material Grid List (mat-grid-list).
+Subtle Animations: Smooth transitions for buttons, hover effects, and pop-up modals using Angular Material Dialogs (mat-dialog) and Angular Animations.
+Frontend Framework: Angular + Angular Material
+Angular: The entire frontend of the application will be developed using Angular for building dynamic, reactive web applications.
+
+Routing: Use Angular Router to navigate between different pages (home, business profiles, admin panel, etc.).
+Forms: Use Reactive Forms and Template-driven Forms with Angular Material Input and Select for handling user inputs.
