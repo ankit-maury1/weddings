@@ -3,6 +3,7 @@ import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/hooks/use-auth";
+import { ThemeProvider } from "@/hooks/use-theme";
 import { ProtectedRoute } from "./lib/protected-route";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth-page";
@@ -28,15 +29,17 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <div className="min-h-screen bg-background font-sans">
-          <Navbar />
-          <main className="container mx-auto px-4 py-8">
-            <Router />
-          </main>
-        </div>
-        <Toaster />
-      </AuthProvider>
+      <ThemeProvider defaultTheme="light" storageKey="ui-theme">
+        <AuthProvider>
+          <div className="min-h-screen bg-background font-sans antialiased">
+            <Navbar />
+            <main className="container mx-auto px-4 py-8">
+              <Router />
+            </main>
+          </div>
+          <Toaster />
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
