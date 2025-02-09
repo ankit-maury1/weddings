@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import { insertForumPostSchema, insertBusinessInquirySchema } from "@shared/schema";
+import { insertForumPostSchema, insertBusinessInquirySchema, insertForumReplySchema, insertChatSchema } from "@shared/schema";
 
 export function registerRoutes(app: Express): Server {
   setupAuth(app);
@@ -19,8 +19,11 @@ export function registerRoutes(app: Express): Server {
 
   app.post("/api/forum", async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
-    
-    const validation = insertForumPostSchema.safeParse(req.body);
+
+    const validation = insertForumPostSchema.safeParse({
+      ...req.body,
+      createdAt: new Date().toISOString()
+    });
     if (!validation.success) {
       return res.status(400).json(validation.error);
     }
@@ -32,10 +35,43 @@ export function registerRoutes(app: Express): Server {
     res.status(201).json(post);
   });
 
+  app.post("/api/forum/:postId/replies", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const validation = insertForumReplySchema.safeParse({
+      ...req.body,
+      postId: parseInt(req.params.postId),
+      createdAt: new Date().toISOString()
+    });
+    if (!validation.success) {
+      return res.status(400).json(validation.error);
+    }
+
+    const reply = await storage.createForumReply({
+      ...validation.data,
+      userId: req.user!.id
+    });
+    res.status(201).json(reply);
+  });
+
+  app.delete("/api/forum/:postId", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const post = await storage.getForumPost(parseInt(req.params.postId));
+    if (!post) return res.sendStatus(404);
+    if (post.userId !== req.user!.id) return res.sendStatus(403);
+
+    await storage.deleteForumPost(post.id);
+    res.sendStatus(204);
+  });
+
   app.post("/api/inquiries", async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
-    
-    const validation = insertBusinessInquirySchema.safeParse(req.body);
+
+    const validation = insertBusinessInquirySchema.safeParse({
+      ...req.body,
+      createdAt: new Date().toISOString()
+    });
     if (!validation.success) {
       return res.status(400).json(validation.error);
     }
@@ -49,9 +85,26 @@ export function registerRoutes(app: Express): Server {
 
   app.get("/api/inquiries", async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
-    
+
     const inquiries = await storage.getInquiriesByUserId(req.user!.id);
     res.json(inquiries);
+  });
+
+  app.patch("/api/profile", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const user = await storage.updateUser(req.user!.id, req.body);
+    res.json(user);
+  });
+
+  app.delete("/api/profile", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    await storage.deleteUser(req.user!.id);
+    req.logout((err) => {
+      if (err) return res.status(500).json({ message: err.message });
+      res.sendStatus(204);
+    });
   });
 
   const httpServer = createServer(app);

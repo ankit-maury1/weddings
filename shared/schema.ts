@@ -13,6 +13,10 @@ export const users = pgTable("users", {
   businessName: text("business_name"),
   description: text("description"),
   rating: integer("rating"),
+  address: text("address"),
+  phone: text("phone"),
+  email: text("email"),
+  website: text("website")
 });
 
 export const forumPosts = pgTable("forum_posts", {
@@ -21,6 +25,15 @@ export const forumPosts = pgTable("forum_posts", {
   title: text("title").notNull(),
   content: text("content").notNull(),
   isPinned: boolean("is_pinned").default(false),
+  createdAt: text("created_at").notNull()
+});
+
+export const forumReplies = pgTable("forum_replies", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").notNull(),
+  userId: integer("user_id").notNull(),
+  content: text("content").notNull(),
+  createdAt: text("created_at").notNull()
 });
 
 export const businessInquiries = pgTable("business_inquiries", {
@@ -29,6 +42,16 @@ export const businessInquiries = pgTable("business_inquiries", {
   toUserId: integer("to_user_id").notNull(),
   message: text("message").notNull(),
   status: text("status").default("pending"),
+  createdAt: text("created_at").notNull()
+});
+
+export const chats = pgTable("chats", {
+  id: serial("id").primaryKey(),
+  fromUserId: integer("from_user_id").notNull(),
+  toUserId: integer("to_user_id").notNull(),
+  message: text("message").notNull(),
+  createdAt: text("created_at").notNull(),
+  isRead: boolean("is_read").default(false)
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -37,12 +60,20 @@ export const insertUserSchema = createInsertSchema(users).pick({
   role: true,
   businessName: true,
   description: true,
+  address: true,
+  phone: true,
+  email: true,
+  website: true
 });
 
 export const insertForumPostSchema = createInsertSchema(forumPosts);
+export const insertForumReplySchema = createInsertSchema(forumReplies);
 export const insertBusinessInquirySchema = createInsertSchema(businessInquiries);
+export const insertChatSchema = createInsertSchema(chats);
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type ForumPost = typeof forumPosts.$inferSelect;
+export type ForumReply = typeof forumReplies.$inferSelect;
 export type BusinessInquiry = typeof businessInquiries.$inferSelect;
+export type Chat = typeof chats.$inferSelect;

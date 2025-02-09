@@ -9,6 +9,7 @@ import AuthPage from "@/pages/auth-page";
 import HomePage from "@/pages/home-page";
 import BusinessPage from "@/pages/business-page";
 import ForumPage from "@/pages/forum-page";
+import ProfilePage from "@/pages/profile-page";
 import Navbar from "@/components/ui/navbar";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
       <ProtectedRoute path="/" component={HomePage} />
       <ProtectedRoute path="/businesses" component={BusinessPage} />
       <ProtectedRoute path="/forum" component={ForumPage} />
+      <ProtectedRoute path="/profile" component={ProfilePage} />
       <Route component={NotFound} />
     </Switch>
   );
