@@ -85,14 +85,3 @@ export type ForumPost = typeof forumPosts.$inferSelect;
 export type ForumReply = typeof forumReplies.$inferSelect;
 export type BusinessInquiry = typeof businessInquiries.$inferSelect;
 export type Chat = typeof chats.$inferSelect;
-export const portfolioSchema = z.object({
-  id: z.number(),
-  userId: z.number(),
-  title: z.string(),
-  category: z.enum(['Weddings', 'Engagements', 'Other']),
-  mediaUrl: z.string(),
-  description: z.string().optional(),
-  createdAt: z.date()
-});
-
-export type Portfolio = z.infer<typeof portfolioSchema>;

@@ -107,23 +107,6 @@ export function registerRoutes(app: Express): Server {
     });
   });
 
-  // Portfolio endpoints
-  app.post('/api/portfolio', async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    
-    const portfolio = await storage.createPortfolio({
-      ...req.body,
-      userId: req.user!.id,
-      createdAt: new Date()
-    });
-    res.status(201).json(portfolio);
-  });
-
-  app.get('/api/portfolio/:userId', async (req, res) => {
-    const portfolios = await storage.getPortfoliosByUserId(parseInt(req.params.userId));
-    res.json(portfolios);
-  });
-
   const httpServer = createServer(app);
   return httpServer;
 }

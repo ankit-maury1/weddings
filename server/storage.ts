@@ -1,7 +1,7 @@
 import { IStorage } from "./types";
 import createMemoryStore from "memorystore";
 import session from "express-session";
-import { User, InsertUser, ForumPost, ForumReply, BusinessInquiry, Chat, Portfolio } from "@shared/schema";
+import { User, InsertUser, ForumPost, ForumReply, BusinessInquiry, Chat } from "@shared/schema";
 
 const MemoryStore = createMemoryStore(session);
 
@@ -11,9 +11,8 @@ export class MemStorage implements IStorage {
   private forumReplies: Map<number, ForumReply>;
   private businessInquiries: Map<number, BusinessInquiry>;
   private chats: Map<number, Chat>;
-  private portfolios: Map<number, Portfolio>;
   sessionStore: session.Store;
-  currentId: { users: number; posts: number; replies: number; inquiries: number; chats: number; portfolios: number };
+  currentId: { users: number; posts: number; replies: number; inquiries: number; chats: number };
 
   constructor() {
     this.users = new Map();
@@ -21,8 +20,7 @@ export class MemStorage implements IStorage {
     this.forumReplies = new Map();
     this.businessInquiries = new Map();
     this.chats = new Map();
-    this.portfolios = new Map();
-    this.currentId = { users: 1, posts: 1, replies: 1, inquiries: 1, chats: 1, portfolios: 1 };
+    this.currentId = { users: 1, posts: 1, replies: 1, inquiries: 1, chats: 1 };
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000,
     });
@@ -135,19 +133,6 @@ export class MemStorage implements IStorage {
       chat.isRead = true;
       this.chats.set(chatId, chat);
     }
-  }
-
-  async createPortfolio(portfolio: Omit<Portfolio, "id">): Promise<Portfolio> {
-    const id = this.currentId.portfolios++;
-    const newPortfolio: Portfolio = { ...portfolio, id };
-    this.portfolios.set(id, newPortfolio);
-    return newPortfolio;
-  }
-
-  async getPortfoliosByUserId(userId: number): Promise<Portfolio[]> {
-    return Array.from(this.portfolios.values()).filter(
-      (portfolio) => portfolio.userId === userId
-    );
   }
 }
 
