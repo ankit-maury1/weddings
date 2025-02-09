@@ -34,11 +34,12 @@ export default function ProfilePage() {
 
   const updateProfile = useMutation({
     mutationFn: async (data: Partial<InsertUser>) => {
-      // Don't send empty password
-      if (!data.password) {
-        delete data.password;
-      }
-      const res = await apiRequest("PATCH", "/api/profile", data);
+      // Don't send empty password or undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(data).filter(([_, value]) => value !== undefined && value !== "")
+      );
+
+      const res = await apiRequest("PATCH", "/api/profile", cleanedData);
       return res.json();
     },
     onSuccess: (updatedUser) => {

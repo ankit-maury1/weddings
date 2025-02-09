@@ -38,6 +38,7 @@ export default function ForumPostComponent({ post }: ForumPostProps) {
       content: "",
       postId: post.id,
       userId: currentUser?.id || 0,
+      createdAt: new Date().toISOString()
     },
   });
 
@@ -62,11 +63,14 @@ export default function ForumPostComponent({ post }: ForumPostProps) {
   });
 
   const createReply = useMutation({
-    mutationFn: async (data: typeof form.getValues) => {
+    mutationFn: async (formData: any) => {
       const res = await apiRequest(
         "POST",
         `/api/forum/${post.id}/replies`,
-        data
+        {
+          ...formData,
+          createdAt: new Date().toISOString()
+        }
       );
       return res.json();
     },
